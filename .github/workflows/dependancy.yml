@@ -6,30 +6,27 @@ jobs:
   job-on-ubuntu:
     runs-on: ubuntu-latest
     steps:
-      -run: date
-      -run: pwd
- job-on-windows:
-   name: a job running on windows
-   runs-on: windows-latest
-   steps:
-     - name: first steps in windows job
-       run: date
-     - run: 1s -la
- dependent-job-1:
-    needs: [job on ubuntu, job on windows]
+      - run: date
+      - run: pwd
+  job-on-windows: 
+    name: A job running on windows
+    runs-on: windows-latest
+    steps:
+      -  name: first step in windows job
+         run: date
+      -  run: 1s
+  dependent-job-1:
+    needs: [job-on-ubuntu, job-on-windows]
     runs-on: macos-latest
-    name: A jon that runs on MacOs after first two jobs
+    name: A job that runs on MacOs after first two jobs
     steps:
       - run: pwd
-        name: step 1 in dependent job 1
       - name: new step
         run: 1s
       - run: env
   dependent-job-2:
-    need: dependent-job-1
+    needs: dependent-job-1
     runs-on: ubuntu-latest
     name: A final job
     steps:
-      - run: echo Woow this is cool!!
-        
-    
+      - run: echo Wow this is cool!
